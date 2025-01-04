@@ -1,3 +1,28 @@
+namespace SpriteKind {
+    export const TrafficLight = SpriteKind.create()
+}
+function change_traffic_light () {
+    if (game.runtime() >= 3000) {
+        traffic_light.setImage(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . 7 7 7 7 7 7 7 . . . . . 
+            . . 7 7 7 7 7 7 7 7 7 7 7 . . . 
+            . 7 7 7 7 7 7 7 7 7 7 7 7 7 . . 
+            . 7 7 7 7 7 7 7 7 7 7 7 7 7 . . 
+            7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 . 
+            7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 . 
+            7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 . 
+            7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 . 
+            7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 . 
+            7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 . 
+            7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 . 
+            . 7 7 7 7 7 7 7 7 7 7 7 7 7 . . 
+            . 7 7 7 7 7 7 7 7 7 7 7 7 7 . . 
+            . . 7 7 7 7 7 7 7 7 7 7 7 . . . 
+            . . . . 7 7 7 7 7 7 7 . . . . . 
+            `)
+    }
+}
 function make_grön () {
     grön = sprites.create(img`
         . . . . . . . . . . . . . . . . 
@@ -283,6 +308,31 @@ function make_röd () {
     true
     )
 }
+function make_traffic_light () {
+    light_state = 0
+    traffic_light = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . 2 2 2 2 2 2 2 . . . . . 
+        . . 2 2 2 2 2 2 2 2 2 2 2 . . . 
+        . 2 2 2 2 2 2 2 2 2 2 2 2 2 . . 
+        . 2 2 2 2 2 2 2 2 2 2 2 2 2 . . 
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . 
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . 
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . 
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . 
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . 
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . 
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . 
+        . 2 2 2 2 2 2 2 2 2 2 2 2 2 . . 
+        . 2 2 2 2 2 2 2 2 2 2 2 2 2 . . 
+        . . 2 2 2 2 2 2 2 2 2 2 2 . . . 
+        . . . . 2 2 2 2 2 2 2 . . . . . 
+        `, SpriteKind.TrafficLight)
+    tiles.placeOnRandomTile(traffic_light, assets.tile`myTile2`)
+    for (let value of tiles.getTilesByType(assets.tile`myTile2`)) {
+        tiles.setTileAt(value, assets.tile`transparency16`)
+    }
+}
 function LeadingSpriteX () {
     return Math.max(blå.x, Math.max(grön.x, Math.max(gul.x, röd.x)))
 }
@@ -389,12 +439,14 @@ function make_blå () {
     true
     )
 }
+let light_state = 0
+let traffic_light: Sprite = null
 let grön: Sprite = null
 let gul: Sprite = null
 let blå: Sprite = null
 let röd: Sprite = null
 tiles.setCurrentTilemap(tilemap`level2`)
-let light_state = 0
+make_traffic_light()
 make_röd()
 make_blå()
 make_gul()
@@ -406,4 +458,5 @@ controller.player4.moveSprite(grön)
 place_players()
 game.onUpdate(function () {
     scene.centerCameraAt(LeadingSpriteX() - scene.screenHeight() / 2, blå.y)
+    change_traffic_light()
 })

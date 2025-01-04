@@ -21,6 +21,7 @@ function change_traffic_light () {
             . . 7 7 7 7 7 7 7 7 7 7 7 . . . 
             . . . . 7 7 7 7 7 7 7 . . . . . 
             `)
+        set_player_controls(100)
     }
 }
 function make_grön () {
@@ -336,6 +337,12 @@ function make_traffic_light () {
 function LeadingSpriteX () {
     return Math.max(blå.x, Math.max(grön.x, Math.max(gul.x, röd.x)))
 }
+function set_player_controls (speed: number) {
+    controller.player1.moveSprite(röd, speed, 0)
+    controller.player2.moveSprite(blå, speed, 0)
+    controller.player3.moveSprite(gul, speed, 0)
+    controller.player4.moveSprite(grön, speed, 0)
+}
 function place_players () {
     tiles.placeOnRandomTile(röd, assets.tile`myTile1`)
     tiles.placeOnRandomTile(blå, assets.tile`myTile1`)
@@ -439,23 +446,20 @@ function make_blå () {
     true
     )
 }
-let light_state = 0
-let traffic_light: Sprite = null
-let grön: Sprite = null
-let gul: Sprite = null
 let blå: Sprite = null
+let light_state = 0
 let röd: Sprite = null
+let gul: Sprite = null
+let grön: Sprite = null
+let traffic_light: Sprite = null
 tiles.setCurrentTilemap(tilemap`level2`)
 make_traffic_light()
 make_röd()
 make_blå()
 make_gul()
 make_grön()
-controller.player1.moveSprite(röd)
-controller.player2.moveSprite(blå)
-controller.player3.moveSprite(gul)
-controller.player4.moveSprite(grön)
 place_players()
+set_player_controls(0)
 game.onUpdate(function () {
     scene.centerCameraAt(LeadingSpriteX() - scene.screenHeight() / 2, blå.y)
     change_traffic_light()

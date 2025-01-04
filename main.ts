@@ -213,7 +213,7 @@ function make_gul () {
     )
 }
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.hazardLava1, function (sprite, location) {
-    game.setGameOverMessage(false, "GAME OVER!")
+    sprites.destroy(sprite)
 })
 function make_röd () {
     röd = sprites.create(img`

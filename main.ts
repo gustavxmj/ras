@@ -308,6 +308,7 @@ function make_röd () {
     200,
     true
     )
+    röd.ay = 200
 }
 function make_traffic_light () {
     light_state = 0
@@ -337,6 +338,9 @@ function make_traffic_light () {
 function LeadingSpriteX () {
     return Math.max(blå.x, Math.max(grön.x, Math.max(gul.x, röd.x)))
 }
+controller.player1.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Pressed, function () {
+    röd.vy = -150
+})
 function set_player_controls (speed: number) {
     controller.player1.moveSprite(röd, speed, 0)
     controller.player2.moveSprite(blå, speed, 0)
@@ -461,6 +465,6 @@ make_grön()
 place_players()
 set_player_controls(0)
 game.onUpdate(function () {
-    scene.centerCameraAt(LeadingSpriteX() - scene.screenHeight() / 2, blå.y)
+    scene.centerCameraAt(LeadingSpriteX() - scene.screenWidth() / 8, blå.y)
     change_traffic_light()
 })
